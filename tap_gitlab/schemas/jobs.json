@@ -1,0 +1,66 @@
+{
+    "type": "object",
+    "properties": {
+        "project_id": {
+            "type": "integer"
+        },
+        "coverage": {
+            "type": ["null", "string"]
+        },
+        "allow_failure": {
+            "type": ["null", "string"]
+        },
+        "duration": {
+            "type": ["null", "integer"]
+        },
+        "name": {
+            "type": ["null", "string"]
+        },
+        "ref": {
+            "type": ["null", "string"]
+        },
+        "id": {
+            "type": "integer"
+        },
+        "stage": {
+            "type": "string"
+        },
+        "tag_list": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "status": {
+            "type": ["null", "string"]
+        },
+        "finished_at": {
+            "anyOf": [
+                {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                {
+                    "type": "null"
+                }
+            ]
+        },
+        "created_at": {
+            "anyOf": [
+                {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                {
+                    "type": "null"
+                }
+            ]
+        },
+        "failure_reason": {
+            "type": ["null", "string"]
+        },
+        "tag": {
+            "type": ["null", "boolean"]
+        }
+    }
+}

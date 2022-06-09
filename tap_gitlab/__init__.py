@@ -67,6 +67,11 @@ RESOURCES = {
         'schema': load_schema('groups'),
         'key_properties': ['id'],
     },
+    'jobs': {
+        'url': '/projects/{}/jobs',
+        'schema': load_schema('jobs'),
+        'key_properties': ['id'],
+    },
 }
 
 
@@ -175,6 +180,16 @@ def sync_issues(project):
             if row["updated_at"] >= get_start("project_{}".format(project["id"])):
                 singer.write_record("issues", transformed_row, time_extracted=utils.now())
 
+def sync_jobs(project):
+    url = get_url("jobs", project['id'])
+    with Transformer(pre_hook=format_timestamp) as transformer:
+        for row in gen_request(url):
+           # flatten_id(row, "commit")
+           # flatten_id(row, "pipeline")
+           # flatten_id(row, "artifacts")
+           # flatten_id(row, "user")
+            transformed_row = transformer.transform(row, RESOURCES["jobs"]["schema"])
+            singer.write_record("jobs", transformed_row, time_extracted=utils.now())
 
 def sync_milestones(entity, element="project"):
     url = get_url(element + "_milestones", entity['id'])
@@ -246,6 +261,7 @@ def sync_project(pid):
         sync_issues(project)
         sync_milestones(project)
         sync_users(project)
+        sync_jobs(project)
 
         singer.write_record("projects", project, time_extracted=time_extracted)
         utils.update_state(STATE, state_key, last_activity_at)
