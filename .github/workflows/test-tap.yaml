@@ -1,0 +1,19 @@
+name: Test GitLab singer tap
+on: [push]
+jobs:
+  test-GitHub-Action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: |
+            pip3 install pylint
+            pip3 install singer
+            pip3 install pytz
+            pip3 install backoff
+            pip3 install strict_rfc3339
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Run test
+        run: |
+            pylint tap_gitlab --disable missing-docstring,logging-format-interpolation,locally-disabled
+      - run: echo "🍏 This job's status is ${{ job.status }}."
